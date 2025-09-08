@@ -2,7 +2,7 @@
 
 A comprehensive collection of free, secure, and easy-to-use developer tools. This anonymous web application provides essential development utilities including FCM testing, QR code generation, and OAuth token generation.
 
-## ??? Available Tools
+## 🛠️ Available Tools
 
 ### 1. **FCM Push Notification Tester** (`/fcm`)
 - Test Firebase Cloud Messaging push notifications instantly
@@ -22,7 +22,7 @@ A comprehensive collection of free, secure, and easy-to-use developer tools. Thi
 - Support for Microsoft Graph API and other Azure services
 - Secure token generation with no data storage
 
-## ?? Security & Privacy
+## 🔒 Security & Privacy
 
 - **No Data Storage**: Your information is never saved or logged
 - **Client-Side Processing**: Where possible, processing happens in your browser
@@ -30,7 +30,7 @@ A comprehensive collection of free, secure, and easy-to-use developer tools. Thi
 - **No Registration**: No account creation or personal information required
 - **Anonymous Access**: Use all tools without authentication
 
-## ? Features
+## ✨ Features
 
 - **Fast & Responsive**: Optimized for speed and mobile devices
 - **SEO Optimized**: Discoverable through search engines
@@ -38,13 +38,13 @@ A comprehensive collection of free, secure, and easy-to-use developer tools. Thi
 - **Cross-Platform**: Works on all modern browsers and devices
 - **Open Source**: Built with modern web technologies
 
-## ?? Security Disclaimer
+## ⚠️ Security Disclaimer
 
 **We do not store any information transmitted through this site.** We are not responsible for any unauthorized access or misuse of your credentials or data if compromised due to factors outside of our control. This includes, but is not limited to, phishing attempts, malware infections, or breaches of third-party services where your information may have been shared. 
 
 **Always use test/development credentials and never production keys or sensitive data.**
 
-## ?? Technology Stack
+## 🔧 Technology Stack
 
 - **Backend**: ASP.NET Core 9 with C# 13
 - **Frontend**: Bootstrap 5, jQuery, Font Awesome
@@ -52,7 +52,7 @@ A comprehensive collection of free, secure, and easy-to-use developer tools. Thi
 - **Security**: HTTPS, CSRF protection, input validation
 - **SEO**: Structured data, meta tags, sitemap generation
 
-## ?? SEO & Discoverability
+## 🌍 SEO & Discoverability
 
 This website is optimized for search engines and includes:
 
@@ -71,7 +71,7 @@ The site is optimized for searches related to:
 - `Firebase Cloud Messaging tester`
 - `developer tools`
 
-## ????? About the Developer
+## 👨‍💻 About the Developer
 
 A passionate software developer with expertise in:
 - Web development and cloud technologies
@@ -82,13 +82,13 @@ A passionate software developer with expertise in:
 
 These tools are created to give back to the developer community and provide free, reliable solutions for common development tasks.
 
-## ?? Connect
+## 🌐 Connect
 
 - **GitHub**: [github.com/nhcloud](https://github.com/nhcloud)
 - **LinkedIn**: [linkedin.com/in/udair](https://linkedin.com/in/udair)
 - **Twitter**: [@nhcloud](https://twitter.com/nhcloud)
 
-## ?? Usage Statistics
+## 📊 Usage Statistics
 
 This tool collection serves developers worldwide with:
 - Zero-storage security model
@@ -97,7 +97,7 @@ This tool collection serves developers worldwide with:
 - Global CDN delivery
 - 24/7 availability
 
-## ?? Getting Started
+## 🚀 Getting Started
 
 1. **No Installation Required**: Simply visit the website
 2. **Choose Your Tool**: Select from FCM Tester, QR Generator, or OAuth Token Generator
@@ -105,7 +105,7 @@ This tool collection serves developers worldwide with:
 4. **Get Results**: Instant processing and results
 5. **Download/Copy**: Use the generated content in your projects
 
-## ?? Free & Open
+## 🆓 Free & Open
 
 - Completely free to use
 - No registration or accounts required
@@ -115,4 +115,4 @@ This tool collection serves developers worldwide with:
 
 ---
 
-**� Udaiappa Ramachandran** | Built with ASP.NET 9 | No data stored | Developer tools for everyone
+**© Udaiappa Ramachandran** | Built with ASP.NET 9 | No data stored | Developer tools for everyone
