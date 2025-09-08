@@ -1,6 +1,12 @@
 User-agent: *
 Allow: /
 
+# Disallow sensitive files and directories
+Disallow: /.git/
+Disallow: /.env*
+Disallow: /config/
+Disallow: /admin/
+
 # Sitemaps
 Sitemap: https://your-domain.com/sitemap.xml
 
