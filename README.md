@@ -1,6 +1,6 @@
-# Developer Tools by Udaiappa Ramachandran
+# Developer Tools
 
-A comprehensive collection of free, secure, and easy-to-use developer tools created by **Udaiappa Ramachandran**. This anonymous web application provides essential development utilities including FCM testing, QR code generation, and OAuth token generation.
+A comprehensive collection of free, secure, and easy-to-use developer tools. This anonymous web application provides essential development utilities including FCM testing, QR code generation, and OAuth token generation.
 
 ## ??? Available Tools
 
@@ -30,7 +30,7 @@ A comprehensive collection of free, secure, and easy-to-use developer tools crea
 - **No Registration**: No account creation or personal information required
 - **Anonymous Access**: Use all tools without authentication
 
-## ?? Features
+## ? Features
 
 - **Fast & Responsive**: Optimized for speed and mobile devices
 - **SEO Optimized**: Discoverable through search engines
@@ -38,7 +38,7 @@ A comprehensive collection of free, secure, and easy-to-use developer tools crea
 - **Cross-Platform**: Works on all modern browsers and devices
 - **Open Source**: Built with modern web technologies
 
-## ??? Security Disclaimer
+## ?? Security Disclaimer
 
 **We do not store any information transmitted through this site.** We are not responsible for any unauthorized access or misuse of your credentials or data if compromised due to factors outside of our control. This includes, but is not limited to, phishing attempts, malware infections, or breaches of third-party services where your information may have been shared. 
 
@@ -61,20 +61,19 @@ This website is optimized for search engines and includes:
 - **Open Graph**: Social media sharing optimization
 - **Sitemap**: Auto-generated XML sitemap at `/sitemap.xml`
 - **Robots.txt**: Search engine crawling instructions at `/robots.txt`
-- **Author Attribution**: Clear attribution to Udaiappa Ramachandran throughout
+- **Author Attribution**: Clear attribution throughout
 
 ### Search Keywords
 The site is optimized for searches related to:
-- `Udaiappa Ramachandran developer tools`
 - `free FCM push notification tester`
 - `QR code generator online free`
 - `OAuth token generator Azure AD`
 - `Firebase Cloud Messaging tester`
-- `developer utilities by Udaiappa Ramachandran`
+- `developer tools`
 
 ## ????? About the Developer
 
-**Udaiappa Ramachandran** is a passionate software developer with expertise in:
+A passionate software developer with expertise in:
 - Web development and cloud technologies
 - Developer tools and automation
 - ASP.NET Core and modern web frameworks
@@ -83,7 +82,7 @@ The site is optimized for searches related to:
 
 These tools are created to give back to the developer community and provide free, reliable solutions for common development tasks.
 
-## ?? Connect with Udaiappa Ramachandran
+## ?? Connect
 
 - **GitHub**: [github.com/nhcloud](https://github.com/nhcloud)
 - **LinkedIn**: [linkedin.com/in/udair](https://linkedin.com/in/udair)
