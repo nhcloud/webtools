@@ -1,0 +1,180 @@
+@using System.Text.Encodings.Web
+@using Microsoft.AspNetCore.WebUtilities
+
+@{
+    ViewData["Title"] = "Free Developer Tools";
+    ViewData["Description"] = "Free developer tools by Udaiappa Ramachandran. Test Firebase Cloud Messaging notifications, generate QR codes, and create OAuth access tokens. Secure, fast, and no registration required.";
+}
+
+<div class="jumbotron bg-primary text-white rounded p-5 mb-4">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold"><i class="fas fa-tools"></i> Developer Tools Hub</h1>
+        <p class="col-md-8 fs-4">Free, secure, and powerful development tools to help with testing and development tasks.</p>
+        <p class="lead">No registration required • No data stored • Open source</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-bell fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">FCM Push Notification Tester</h5>
+                <p class="card-text">Test Firebase Cloud Messaging push notifications by sending test messages to devices. Perfect for mobile app developers testing push notification functionality.</p>
+                <a href="/fcm" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Start Testing FCM
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-qrcode fa-3x text-success mb-3"></i>
+                <h5 class="card-title">QR Code Generator</h5>
+                <p class="card-text">Generate QR codes for URLs quickly and easily. Perfect for sharing links, testing mobile apps, or creating marketing materials with downloadable QR codes.</p>
+                <a href="/qr" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Generate QR Code
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-key fa-3x text-warning mb-3"></i>
+                <h5 class="card-title">OAuth Access Token Generator</h5>
+                <p class="card-text">Generate OAuth access tokens for Azure AD applications using client credentials flow. Essential for API testing and development workflows.</p>
+                <a href="/auth" class="btn btn-warning">
+                    <i class="fas fa-unlock"></i> Generate Token
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="alert alert-info">
+            <h5><i class="fas fa-info-circle"></i> About These Developer Tools</h5>
+            <p>These free developer tools are created to help the developer community with useful, secure, and easy-to-use solutions for common development tasks.</p>
+            <ul class="mb-3">
+                <li><strong>FCM Tester:</strong> Enter your Firebase server key and device token to send test push notifications instantly</li>
+                <li><strong>QR Generator:</strong> Input any URL to generate a high-quality, downloadable QR code for free</li>
+                <li><strong>Access Token Generator:</strong> Use your Azure AD app credentials to generate OAuth tokens for API testing</li>
+            </ul>
+            <div class="row">
+                <div class="col-md-6">
+                    <h6><i class="fas fa-shield-alt text-success"></i> Security Features</h6>
+                    <ul class="list-unstyled">
+                        <li>? No data storage - your information is never saved</li>
+                        <li>? Client-side processing where possible</li>
+                        <li>? HTTPS encryption for all communications</li>
+                        <li>? No registration or account creation required</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6><i class="fas fa-rocket text-primary"></i> Developer Benefits</h6>
+                    <ul class="list-unstyled">
+                        <li>? Fast and responsive interface</li>
+                        <li>?? Built for developers by a developer</li>
+                        <li>?? Mobile-friendly responsive design</li>
+                        <li>?? Completely free to use</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card border-primary">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-user"></i> About the Developer</h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-3">
+                    <strong>Udaiappa Ramachandran</strong> is a passionate software developer with expertise in web development, 
+                    cloud technologies, and developer tools. These tools are created to give back to the developer community 
+                    and provide free, reliable solutions for common development tasks.
+                </p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Technologies Used</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-secondary">ASP.NET Core 9</span>
+                            <span class="badge bg-secondary">C# 13</span>
+                            <span class="badge bg-secondary">Bootstrap 5</span>
+                            <span class="badge bg-secondary">jQuery</span>
+                            <span class="badge bg-secondary">Font Awesome</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Connect & Follow</h6>
+                        <p class="mb-0">
+                            Follow for more developer tools and updates on web development, 
+                            cloud computing, and software engineering best practices.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Schema.org structured data for individual tools -->
+<script type="application/ld+json">
+[
+    {
+        "@@context": "https://schema.org",
+        "@@type": "SoftwareApplication",
+        "name": "FCM Push Notification Tester",
+        "description": "Free tool to test Firebase Cloud Messaging push notifications",
+        "url": "/fcm",
+        "author": {
+            "@@type": "Person",
+            "name": "Udaiappa Ramachandran"
+        },
+        "offers": {
+            "@@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    },
+    {
+        "@@context": "https://schema.org",
+        "@@type": "SoftwareApplication", 
+        "name": "QR Code Generator",
+        "description": "Free tool to generate QR codes for any URL",
+        "url": "/qr",
+        "author": {
+            "@@type": "Person",
+            "name": "Udaiappa Ramachandran"
+        },
+        "offers": {
+            "@@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    },
+    {
+        "@@context": "https://schema.org",
+        "@@type": "SoftwareApplication",
+        "name": "OAuth Access Token Generator", 
+        "description": "Free tool to generate OAuth access tokens for Azure AD applications",
+        "url": "/auth",
+        "author": {
+            "@@type": "Person",
+            "name": "Udaiappa Ramachandran"
+        },
+        "offers": {
+            "@@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+]
+</script>

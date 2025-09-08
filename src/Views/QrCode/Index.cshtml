@@ -1,0 +1,165 @@
+@model ToolsWebsite.Models.QrCodeModel
+@{
+    ViewData["Title"] = "QR Code Generator";
+    ViewData["Description"] = "Free QR code generator by Udaiappa Ramachandran. Generate high-quality QR codes for any URL instantly. Download QR codes for free - no registration required.";
+}
+
+<div class="alert alert-warning border-2 border-warning mb-4">
+    <h5 class="alert-heading"><i class="fas fa-exclamation-triangle"></i> Security Disclaimer</h5>
+    <p class="mb-0"><strong>We do not store any information transmitted through this page.</strong> We are not responsible for any unauthorized access or misuse of your credentials or data if compromised due to factors outside of our control. This includes, but is not limited to, phishing attempts, malware infections, or breaches of third-party services where your information may have been shared. Use only test/development credentials and never production keys or sensitive data.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h1><i class="fas fa-qrcode"></i> Free QR Code Generator</h1>
+                <p class="mb-0 text-muted">Generate QR codes instantly • Professional quality</p>
+            </div>
+            <div class="card-body">
+                <form asp-action="GenerateQr" method="post">
+                    <div class="mb-3">
+                        <label asp-for="Url" class="form-label"></label>
+                        <input asp-for="Url" class="form-control" placeholder="https://example.com" />
+                        <span asp-validation-for="Url" class="text-danger"></span>
+                        <div class="form-text">Enter any valid URL to generate a high-quality QR code</div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-magic"></i> Generate QR Code
+                    </button>
+                </form>
+                
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger mt-3">
+                        <i class="fas fa-exclamation-triangle"></i> @Model.ErrorMessage
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        @if (Model.IsGenerated && !string.IsNullOrEmpty(Model.QrCodeBase64))
+        {
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-check-circle text-success"></i> Generated QR Code</h5>
+                </div>
+                <div class="card-body text-center">
+                    <img src="data:image/png;base64,@Model.QrCodeBase64" 
+                         alt="QR Code for @Model.Url" 
+                         class="img-fluid border rounded mb-3" 
+                         style="max-width: 300px;" />
+                    
+                    <div class="mb-3">
+                        <small class="text-muted">
+                            <strong>URL:</strong> @Model.Url
+                        </small>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <a href="data:image/png;base64,@Model.QrCodeBase64" 
+                           download="qrcode.png" 
+                           class="btn btn-primary">
+                            <i class="fas fa-download"></i> Download QR Code
+                        </a>
+                        
+                        <button type="button" 
+                                class="btn btn-outline-secondary" 
+                                onclick="copyToClipboard('@Model.Url')">
+                            <i class="fas fa-copy"></i> Copy URL
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-info-circle"></i> About QR Code Generator</h5>
+                </div>
+                <div class="card-body">
+                    <p>Generate high-quality QR codes for any URL instantly with this free QR code generator tool.</p>
+                    
+                    <h6>Perfect Use Cases:</h6>
+                    <ul>
+                        <li>Share website links quickly</li>
+                        <li>Mobile app testing and distribution</li>
+                        <li>Event registration links</li>
+                        <li>Social media profiles</li>
+                        <li>Wi-Fi network credentials</li>
+                        <li>Contact information sharing</li>
+                    </ul>
+                    
+                    <div class="alert alert-info">
+                        <small><i class="fas fa-lightbulb"></i> <strong>Tip:</strong> Most smartphones can scan QR codes directly with their camera app.</small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card border-success">
+            <div class="card-header">
+                <h6><i class="fas fa-star"></i> About This QR Code Generator</h6>
+            </div>
+            <div class="card-body">
+                <p>This free QR code generator provides a simple, fast, and secure way to generate QR codes for any URL.</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Generator Features:</h6>
+                        <ul class="list-unstyled">
+                            <li>? High-quality PNG QR codes</li>
+                            <li>? Instant generation - no waiting</li>
+                            <li>? Downloadable QR code images</li>
+                            <li>? Mobile-optimized scanning</li>
+                            <li>? No watermarks or branding</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Security & Privacy:</h6>
+                        <ul class="list-unstyled">
+                            <li>?? No URLs stored or logged</li>
+                            <li>?? Client-side processing</li>
+                            <li>?? Completely free to use</li>
+                            <li>?? Works on all devices</li>
+                            <li>? Fast and responsive</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <h6>How QR Codes Work:</h6>
+                    <p class="mb-0">QR (Quick Response) codes are two-dimensional barcodes that can store various types of information. When scanned with a smartphone camera or QR code reader, they instantly direct users to the encoded URL, making them perfect for bridging physical and digital experiences.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                // Show success message
+                const btn = event.target;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.classList.add('btn-success');
+                btn.classList.remove('btn-outline-secondary');
+                
+                setTimeout(function() {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('btn-success');
+                    btn.classList.add('btn-outline-secondary');
+                }, 2000);
+            });
+        }
+    </script>
+}

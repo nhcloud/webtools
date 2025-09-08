@@ -1,0 +1,125 @@
+/* Custom CSS for Developer Tools by Udaiappa Ramachandran */
+
+/* SEO-friendly heading hierarchy */
+h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #212529;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+/* Enhanced visual hierarchy for better UX */
+.card-header h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-header h4 {
+    font-size: 1.25rem;
+    margin-bottom: 0;
+}
+
+/* Social links styling */
+.social-links a {
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.social-links a:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
+}
+
+/* Enhanced alert styling */
+.alert-heading {
+    font-weight: 600;
+}
+
+/* Button hover effects */
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Card hover effects for better interactivity */
+.card {
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.125);
+}
+
+.card:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+/* QR Code styling */
+.qr-code-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+}
+
+/* Form enhancements */
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+/* Footer styling */
+footer {
+    margin-top: auto;
+}
+
+/* Responsive text adjustments */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1rem;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    .display-5 {
+        font-size: 2rem;
+    }
+}
+
+/* Accessibility improvements */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Print styles for better SEO */
+@media print {
+    .no-print {
+        display: none;
+    }
+    
+    .container {
+        width: 100% !important;
+        max-width: none !important;
+    }
+}

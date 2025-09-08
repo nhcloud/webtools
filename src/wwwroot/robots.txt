@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://your-domain.com/sitemap.xml
+
+# Allow all developer tool pages
+Allow: /fcm
+Allow: /qr 
+Allow: /auth
+
+# Allow static resources
+Allow: /css/
+Allow: /js/
+Allow: /lib/
+
+# Crawler delay (optional)
+Crawl-delay: 1

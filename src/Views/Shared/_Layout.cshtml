@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Developer Tools by Udaiappa Ramachandran</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="@(ViewData["Description"] ?? "Free developer tools by Udaiappa Ramachandran including FCM push notification tester, QR code generator, and OAuth token generator. Test Firebase notifications, generate QR codes, and create Azure AD access tokens.")">
+    <meta name="keywords" content="developer tools, FCM tester, QR code generator, OAuth token generator, Firebase notifications, Azure AD, push notifications, Udaiappa Ramachandran, web developer tools">
+    <meta name="author" content="Udaiappa Ramachandran">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="@(ViewData["CanonicalUrl"] ?? ($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}"))">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="@ViewData["Title"] - Developer Tools by Udaiappa Ramachandran">
+    <meta property="og:description" content="@(ViewData["Description"] ?? "Free developer tools including FCM tester, QR code generator, and OAuth token generator by Udaiappa Ramachandran.")">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="@($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}")">
+    <meta property="og:site_name" content="Developer Tools by Udaiappa Ramachandran">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@ViewData["Title"] - Developer Tools by Udaiappa Ramachandran">
+    <meta name="twitter:description" content="@(ViewData["Description"] ?? "Free developer tools including FCM tester, QR code generator, and OAuth token generator.")">
+    <meta name="twitter:creator" content="@("@")nhcloud">
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "WebSite",
+        "name": "Developer Tools by Udaiappa Ramachandran",
+        "description": "Free developer tools including FCM push notification tester, QR code generator, and OAuth token generator",
+        "url": "@($"{Context.Request.Scheme}://{Context.Request.Host}")",
+        "author": {
+            "@@type": "Person",
+            "name": "Udaiappa Ramachandran",
+            "jobTitle": "Software Developer",
+            "url": "@($"{Context.Request.Scheme}://{Context.Request.Host}")"
+        },
+        "potentialAction": {
+            "@@type": "SearchAction",
+            "target": {
+                "@@type": "EntryPoint",
+                "urlTemplate": "@($"{Context.Request.Scheme}://{Context.Request.Host}")/search?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="~/css/site.css" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark" role="navigation">
+            <div class="container">
+                <a class="navbar-brand" href="/" title="Developer Tools by Udaiappa Ramachandran">
+                    <i class="fas fa-tools" aria-hidden="true"></i> Developer Tools
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index" title="Home - Developer Tools">
+                                <i class="fas fa-home" aria-hidden="true"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/fcm" title="FCM Push Notification Tester">
+                                <i class="fas fa-bell" aria-hidden="true"></i> FCM Tester
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/qr" title="QR Code Generator">
+                                <i class="fas fa-qrcode" aria-hidden="true"></i> QR Generator
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/auth" title="OAuth Access Token Generator">
+                                <i class="fas fa-key" aria-hidden="true"></i> Access Token
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="bg-dark text-light mt-5 py-4" role="contentinfo">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h5>Developer Tools by Udaiappa Ramachandran</h5>
+                    <p class="mb-1">Free, secure, and easy-to-use developer tools for testing and development.</p>
+                    <p class="mb-0">
+                        <small>Built with ASP.NET 9 | No data stored | Open source developer tools</small>
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <div class="social-links mb-3">
+                        <a href="https://github.com/nhcloud" class="text-light me-3" title="GitHub - Udaiappa Ramachandran"
+                            rel="noopener" target="_blank">
+                            <i class="fab fa-github fa-lg" aria-hidden="true"></i>
+                            <span class="sr-only">GitHub Profile</span>
+                        </a>
+                        <a href="https://linkedin.com/in/udair" class="text-light me-3" title="LinkedIn - Udaiappa Ramachandran"
+                            rel="noopener" target="_blank">
+                            <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+                            <span class="sr-only">LinkedIn Profile</span>
+                        </a>
+                        <a href="https://twitter.com/nhcloud" class="text-light" title="Twitter - Udaiappa Ramachandran"
+                            rel="noopener" target="_blank">
+                            <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
+                            <span class="sr-only">Twitter Profile</span>
+                        </a>
+                    </div>
+                    <p class="mb-0">
+                        <small>&copy; @DateTime.Now.Year udai.io</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

@@ -1,0 +1,206 @@
+@model ToolsWebsite.Models.AuthModel
+@{
+    ViewData["Title"] = "OAuth Access Token Generator";
+    ViewData["Description"] = "Free OAuth access token generator for Azure AD by Udaiappa Ramachandran. Generate Azure AD access tokens using client credentials flow for API testing. Secure and no data storage.";
+}
+
+<div class="alert alert-danger border-2 border-danger mb-4">
+    <h5 class="alert-heading"><i class="fas fa-shield-alt"></i> IMPORTANT Security Disclaimer</h5>
+    <p class="mb-0"><strong>We do not store any information transmitted through this page.</strong> We are not responsible for any unauthorized access or misuse of your token if it is compromised due to factors outside of our control. This includes, but is not limited to, phishing attempts, malware infections, or breaches of third-party services where your token may have been shared. <strong>NEVER enter production credentials - use only test/development Azure AD applications.</strong> Tokens generated here should only be used for testing purposes in secure environments.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h1><i class="fas fa-key"></i> OAuth Access Token Generator for Azure AD</h1>
+                <p class="mb-0 text-muted">Generate Azure AD access tokens instantly • Free developer tool</p>
+            </div>
+            <div class="card-body">
+                <form asp-action="GenerateToken" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="TenantId" class="form-label"></label>
+                                <input asp-for="TenantId" class="form-control" placeholder="Enter your Azure AD Tenant ID" />
+                                <span asp-validation-for="TenantId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="ClientId" class="form-label"></label>
+                                <input asp-for="ClientId" class="form-control" placeholder="Enter your Application (Client) ID" />
+                                <span asp-validation-for="ClientId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="ClientSecret" class="form-label"></label>
+                        <input asp-for="ClientSecret" type="password" class="form-control" placeholder="Enter your Client Secret" />
+                        <span asp-validation-for="ClientSecret" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Scope" class="form-label"></label>
+                        <input asp-for="Scope" class="form-control" placeholder="https://graph.microsoft.com/.default" />
+                        <span asp-validation-for="Scope" class="text-danger"></span>
+                        <div class="form-text">The scope(s) you want to request access for</div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fas fa-unlock"></i> Generate Access Token
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-info-circle"></i> How to Use OAuth Generator</h5>
+            </div>
+            <div class="card-body">
+                <ol>
+                    <li><strong>Tenant ID:</strong> Found in Azure AD ? Overview ? Directory (tenant) ID</li>
+                    <li><strong>Client ID:</strong> Your app registration's Application (client) ID</li>
+                    <li><strong>Client Secret:</strong> Secret generated for your app registration</li>
+                    <li><strong>Scope:</strong> The permissions you're requesting (e.g., Graph API)</li>
+                </ol>
+                
+                <div class="alert alert-danger">
+                    <small><i class="fas fa-exclamation-triangle"></i> <strong>Security:</strong> Only use test/development credentials. Never enter production secrets.</small>
+                </div>
+                
+                <div class="alert alert-info">
+                    <small><i class="fas fa-lightbulb"></i> <strong>Grant Type:</strong> This tool uses the Client Credentials flow for service-to-service authentication.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.IsSuccess && !string.IsNullOrEmpty(Model.AccessToken))
+{
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card border-success">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="fas fa-check-circle"></i> Access Token Generated Successfully</h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <small><i class="fas fa-shield-alt"></i> <strong>Security Reminder:</strong> This token provides access to your Azure AD resources. Keep it secure and do not share it. Clear your browser cache/history after use.</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Access Token:</strong></label>
+                        <div class="input-group">
+                            <textarea class="form-control" rows="3" readonly id="accessToken">@Model.AccessToken</textarea>
+                            <button class="btn btn-outline-secondary" type="button" onclick="copyToClipboard('accessToken')">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Token Type:</strong></label>
+                                <input type="text" class="form-control" value="@Model.TokenType" readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Expires In:</strong></label>
+                                <input type="text" class="form-control" value="@Model.ExpiresIn seconds" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <small><i class="fas fa-clock"></i> <strong>Note:</strong> This token will expire in @Model.ExpiresIn seconds (@TimeSpan.FromSeconds(Model.ExpiresIn ?? 0).ToString(@"hh\:mm\:ss")).</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (!Model.IsSuccess && !string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="alert alert-danger">
+                <h5><i class="fas fa-times-circle"></i> Error Generating Token</h5>
+                <p class="mb-0">@Model.ErrorMessage</p>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card border-warning">
+            <div class="card-header">
+                <h6><i class="fas fa-cog"></i> About This OAuth Token Generator</h6>
+            </div>
+            <div class="card-body">
+                <p>This free OAuth access token generator helps developers quickly generate Azure AD access tokens for API testing and development.</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Perfect for:</h6>
+                        <ul class="list-unstyled">
+                            <li>? API testing and development</li>
+                            <li>? Microsoft Graph API calls</li>
+                            <li>? Azure resource management</li>
+                            <li>? Service-to-service authentication</li>
+                            <li>? OAuth flow testing</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Security Features:</h6>
+                        <ul class="list-unstyled">
+                            <li>?? No credentials stored or logged</li>
+                            <li>?? Direct Azure AD communication</li>
+                            <li>? Instant token generation</li>
+                            <li>?? Free to use - no registration</li>
+                            <li>??? HTTPS encrypted connections</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <h6>About OAuth Client Credentials Flow:</h6>
+                    <p class="mb-0">The Client Credentials grant type is used by applications to request an access token for themselves. This flow is typically used for machine-to-machine communication where no user interaction is required. It's perfect for server applications, background services, and API integrations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            element.select();
+            element.setSelectionRange(0, 99999); // For mobile devices
+            
+            navigator.clipboard.writeText(element.value).then(function() {
+                // Show success message
+                const btn = event.target.closest('button');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.classList.add('btn-success');
+                btn.classList.remove('btn-outline-secondary');
+                
+                setTimeout(function() {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('btn-success');
+                    btn.classList.add('btn-outline-secondary');
+                }, 2000);
+            });
+        }
+    </script>
+}
