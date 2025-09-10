@@ -52,12 +52,13 @@
             <div class="card mt-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0"><i class="fas fa-check-circle text-success"></i> Formatted JSON</h5>
-                    <div>
+                    <div class="d-flex gap-2">
                         <button class="btn btn-sm btn-outline-secondary" onclick="copyFormatted()"><i class="fas fa-copy"></i> Copy</button>
+                        <button class="btn btn-sm btn-outline-info" id="toggleColorBtn" onclick="toggleColoring()"><i class="fas fa-palette"></i> Toggle Colors</button>
                     </div>
                 </div>
                 <div class="card-body">
-                    <pre class="bg-light p-3 rounded small" id="formattedOutput">@Model.FormattedJson</pre>
+                    <pre class="bg-light p-3 rounded small json-view" id="formattedOutput" data-raw="@Model.FormattedJson">@Model.FormattedJson</pre>
                 </div>
             </div>
         }
@@ -127,6 +128,15 @@
 </div>
 
 @section Scripts {
+    <style>
+        .json-view { white-space: pre; font-family: var(--bs-font-monospace, monospace); line-height: 1.25; }
+        .json-key { color: #aa0d91; }
+        .json-string { color: #008000; }
+        .json-number { color: #1c00cf; }
+        .json-bool { color: #aa5d00; }
+        .json-null { color: #777; font-style: italic; }
+        .json-punctuation { color: #555; }
+    </style>
     <script>
         function beautifyClient() {
             try {
@@ -145,7 +155,9 @@
         function copyFormatted() {
             const pre = document.getElementById('formattedOutput');
             if (!pre) return;
-            navigator.clipboard.writeText(pre.innerText).then(() => {
+            // Copy raw JSON (not colored HTML) from data attribute if present
+            const raw = pre.getAttribute('data-raw') || pre.innerText;
+            navigator.clipboard.writeText(raw).then(() => {
                 const btn = event.target.closest('button');
                 const orig = btn.innerHTML;
                 btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
@@ -154,5 +166,56 @@
                 setTimeout(()=>{ btn.innerHTML = orig; btn.classList.remove('btn-success'); btn.classList.add('btn-outline-secondary'); }, 1500);
             });
         }
+
+        // JSON Highlighter --------------------------------------------------
+        function escapeHtml(str){
+            return str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
+        }
+        function renderJson(val, indent){
+            const pad = '  '.repeat(indent);
+            if (val === null) return '<span class="json-null">null</span>';
+            if (Array.isArray(val)) {
+                if(!val.length) return '[]';
+                const items = val.map(v => pad + '  ' + renderJson(v, indent+1));
+                return '[\n' + items.join(',\n') + '\n' + pad + ']';
+            }
+            if (typeof val === 'object') {
+                const entries = Object.entries(val);
+                if(!entries.length) return '{}';
+                const lines = entries.map(([k,v]) => pad + '  ' + '<span class="json-key">"' + escapeHtml(k) + '"</span>: ' + renderJson(v, indent+1));
+                return '{\n' + lines.join(',\n') + '\n' + pad + '}';
+            }
+            if (typeof val === 'string') return '<span class="json-string">"' + escapeHtml(val) + '"</span>';
+            if (typeof val === 'number') return '<span class="json-number">' + val + '</span>';
+            if (typeof val === 'boolean') return '<span class="json-bool">' + val + '</span>';
+            return '<span>' + escapeHtml(String(val)) + '</span>';
+        }
+        function applyColoring(){
+            const pre = document.getElementById('formattedOutput');
+            if(!pre) return;
+            if(pre.dataset.colored === 'true') return; // already colored
+            const raw = pre.getAttribute('data-raw') || pre.textContent;
+            try {
+                const obj = JSON.parse(raw);
+                pre.innerHTML = renderJson(obj, 0);
+                pre.dataset.colored = 'true';
+            } catch(e){ /* ignore if cannot parse */ }
+        }
+        function removeColoring(){
+            const pre = document.getElementById('formattedOutput');
+            if(!pre) return;
+            if(pre.dataset.colored !== 'true') return;
+            const raw = pre.getAttribute('data-raw') || pre.textContent;
+            pre.textContent = raw; // plain text
+            pre.dataset.colored = 'false';
+        }
+        function toggleColoring(){
+            const pre = document.getElementById('formattedOutput');
+            if(!pre) return;
+            if(pre.dataset.colored === 'true') removeColoring(); else applyColoring();
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            applyColoring(); // auto color on load
+        });
     </script>
 }
