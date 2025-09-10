@@ -1,0 +1,158 @@
+@model ToolsWebsite.Models.JsonFormatterModel
+@{
+    ViewData["Title"] = "JSON Formatter & Validator";
+    ViewData["Description"] = "Free JSON formatter and validator tool by Udaiappa Ramachandran. Format (pretty-print) or minify JSON instantly. Validate JSON syntax online with error messages.";
+}
+
+<div class="alert alert-warning border-2 border-warning mb-4">
+    <h5 class="alert-heading"><i class="fas fa-shield-alt"></i> Security Note</h5>
+    <p class="mb-0"><strong>No data is stored.</strong> All JSON formatting and validation happens in-memory. Use this free online JSON formatter tool safely for development and testing purposes.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="h4 mb-0"><i class="fas fa-code"></i> JSON Formatter & Validator</h1>
+                <small class="text-muted">Pretty-print, minify, and validate JSON instantly</small>
+            </div>
+            <div class="card-body">
+                <form asp-action="Format" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <label asp-for="InputJson" class="form-label"></label>
+                        <textarea asp-for="InputJson" class="form-control" rows="10" placeholder='{"key":"value","array":[1,2,3]}'></textarea>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input asp-for="Minify" class="form-check-input" type="checkbox" id="minifySwitch">
+                        <label class="form-check-label" for="minifySwitch">Minify instead of pretty-print</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary me-2">
+                        <i class="fas fa-magic"></i> Format JSON
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="beautifyClient()">
+                        <i class="fas fa-bolt"></i> Client Pretty
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="minifyClient()">
+                        <i class="fas fa-compress"></i> Client Minify
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger mt-3">
+                <i class="fas fa-exclamation-triangle"></i> @Model.ErrorMessage
+            </div>
+        }
+
+        @if (Model.IsSuccess && !string.IsNullOrEmpty(Model.FormattedJson))
+        {
+            <div class="card mt-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-check-circle text-success"></i> Formatted JSON</h5>
+                    <div>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="copyFormatted()"><i class="fas fa-copy"></i> Copy</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <pre class="bg-light p-3 rounded small" id="formattedOutput">@Model.FormattedJson</pre>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header"><h5 class="mb-0"><i class="fas fa-info-circle"></i> About JSON Formatter</h5></div>
+            <div class="card-body small">
+                <p>This free JSON formatter and validator tool helps developers quickly format, minify, and validate JSON data. Perfect for debugging APIs and working with structured data.</p>
+                <h6>Features:</h6>
+                <ul class="list-unstyled mb-2">
+                    <li>? Pretty-print JSON</li>
+                    <li>? Minify JSON</li>
+                    <li>? Validate JSON syntax</li>
+                    <li>? Copy formatted output</li>
+                    <li>? Client-side instant formatting</li>
+                    <li>? Secure - no storage</li>
+                </ul>
+                <div class="alert alert-info mb-2">
+                    <small><i class="fas fa-lightbulb"></i> Tip: Use the client buttons for instant formatting without a server round trip.</small>
+                </div>
+                <h6>Common JSON Issues:</h6>
+                <ul class="mb-0">
+                    <li>Missing commas between properties</li>
+                    <li>Trailing commas at end of objects/arrays</li>
+                    <li>Unquoted property names</li>
+                    <li>Invalid escape sequences</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card border-primary">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="fas fa-star"></i> About This JSON Formatting Tool</h6>
+            </div>
+            <div class="card-body small">
+                <p>This free online JSON formatter supports both pretty-printing (with indentation) and minification for compact transport. It validates JSON structure and reports parsing errors with helpful messages.</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Ideal Use Cases:</h6>
+                        <ul class="list-unstyled">
+                            <li>?? Debugging REST API responses</li>
+                            <li>?? Cleaning up messy JSON</li>
+                            <li>?? Minimizing payload size</li>
+                            <li>?? Validating before importing</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Developer Friendly:</h6>
+                        <ul class="list-unstyled">
+                            <li>? Fast processing</li>
+                            <li>?? No data retention</li>
+                            <li>?? Works in any browser</li>
+                            <li>?? Optimized for productivity</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mb-0">JSON (JavaScript Object Notation) is a lightweight data-interchange format used across APIs and web applications. Proper formatting improves readability and prevents syntax errors.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function beautifyClient() {
+            try {
+                const textarea = document.getElementById('InputJson');
+                const parsed = JSON.parse(textarea.value);
+                textarea.value = JSON.stringify(parsed, null, 2);
+            } catch (e) { alert('Invalid JSON: ' + e.message); }
+        }
+        function minifyClient() {
+            try {
+                const textarea = document.getElementById('InputJson');
+                const parsed = JSON.parse(textarea.value);
+                textarea.value = JSON.stringify(parsed);
+            } catch (e) { alert('Invalid JSON: ' + e.message); }
+        }
+        function copyFormatted() {
+            const pre = document.getElementById('formattedOutput');
+            if (!pre) return;
+            navigator.clipboard.writeText(pre.innerText).then(() => {
+                const btn = event.target.closest('button');
+                const orig = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.classList.add('btn-success');
+                btn.classList.remove('btn-outline-secondary');
+                setTimeout(()=>{ btn.innerHTML = orig; btn.classList.remove('btn-success'); btn.classList.add('btn-outline-secondary'); }, 1500);
+            });
+        }
+    </script>
+}

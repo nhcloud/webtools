@@ -53,6 +53,32 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-code fa-3x text-info mb-3"></i>
+                <h5 class="card-title">JSON Formatter & Validator</h5>
+                <p class="card-text">Format (pretty-print) or minify JSON instantly. Validate JSON syntax and copy the formatted result. Fast, secure, and free.</p>
+                <a href="/json" class="btn btn-info text-white">
+                    <i class="fas fa-code"></i> Format JSON
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-toolbox fa-3x text-secondary mb-3"></i>
+                <h5 class="card-title">Miscellaneous Tools</h5>
+                <p class="card-text">UNIX time converter, URL encode/decode, and Base64 encode/decode utilities. Fast in-browser conversions.</p>
+                <a href="/misc" class="btn btn-secondary">
+                    <i class="fas fa-toolbox"></i> Open Misc Tools
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="row mt-4">
@@ -69,19 +95,19 @@
                 <div class="col-md-6">
                     <h6><i class="fas fa-shield-alt text-success"></i> Security Features</h6>
                     <ul class="list-unstyled">
-                        <li>? No data storage - your information is never saved</li>
-                        <li>? Client-side processing where possible</li>
-                        <li>? HTTPS encryption for all communications</li>
-                        <li>? No registration or account creation required</li>
+                        <li>• No data storage - your information is never saved</li>
+                        <li>• Client-side processing where possible</li>
+                        <li>• HTTPS encryption for all communications</li>
+                        <li>• No registration or account creation required</li>
                     </ul>
                 </div>
                 <div class="col-md-6">
                     <h6><i class="fas fa-rocket text-primary"></i> Developer Benefits</h6>
                     <ul class="list-unstyled">
-                        <li>? Fast and responsive interface</li>
-                        <li>?? Built for developers by a developer</li>
-                        <li>?? Mobile-friendly responsive design</li>
-                        <li>?? Completely free to use</li>
+                        <li>• Fast and responsive interface</li>
+                        <li>• Built for developers by a developer</li>
+                        <li>• Mobile-friendly responsive design</li>
+                        <li>• Completely free to use</li>
                     </ul>
                 </div>
             </div>
@@ -126,55 +152,48 @@
 </div>
 
 <!-- Schema.org structured data for individual tools -->
-<script type="application/ld+json">
-[
+<script type="application/ld+json">{
+  "@@context": "https://schema.org",
+  "@@graph": [
     {
-        "@@context": "https://schema.org",
-        "@@type": "SoftwareApplication",
-        "name": "FCM Push Notification Tester",
-        "description": "Free tool to test Firebase Cloud Messaging push notifications",
-        "url": "/fcm",
-        "author": {
-            "@@type": "Person",
-            "name": "Udaiappa Ramachandran"
-        },
-        "offers": {
-            "@@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        }
+      "@@type": "SoftwareApplication",
+      "name": "FCM Push Notification Tester",
+      "description": "Free tool to test Firebase Cloud Messaging push notifications",
+      "url": "/fcm",
+      "author": { "@@type": "Person", "name": "Udaiappa Ramachandran" },
+      "offers": { "@@type": "Offer", "price": "0", "priceCurrency": "USD" }
     },
     {
-        "@@context": "https://schema.org",
-        "@@type": "SoftwareApplication", 
-        "name": "QR Code Generator",
-        "description": "Free tool to generate QR codes for any URL",
-        "url": "/qr",
-        "author": {
-            "@@type": "Person",
-            "name": "Udaiappa Ramachandran"
-        },
-        "offers": {
-            "@@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        }
+      "@@type": "SoftwareApplication",
+      "name": "QR Code Generator",
+      "description": "Free tool to generate QR codes for any URL",
+      "url": "/qr",
+      "author": { "@@type": "Person", "name": "Udaiappa Ramachandran" },
+      "offers": { "@@type": "Offer", "price": "0", "priceCurrency": "USD" }
     },
     {
-        "@@context": "https://schema.org",
-        "@@type": "SoftwareApplication",
-        "name": "OAuth Access Token Generator", 
-        "description": "Free tool to generate OAuth access tokens for Azure AD applications",
-        "url": "/auth",
-        "author": {
-            "@@type": "Person",
-            "name": "Udaiappa Ramachandran"
-        },
-        "offers": {
-            "@@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        }
+      "@@type": "SoftwareApplication",
+      "name": "OAuth Access Token Generator",
+      "description": "Free tool to generate OAuth access tokens for Azure AD applications",
+      "url": "/auth",
+      "author": { "@@type": "Person", "name": "Udaiappa Ramachandran" },
+      "offers": { "@@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@@type": "SoftwareApplication",
+      "name": "JSON Formatter & Validator",
+      "description": "Free tool to format (pretty-print), minify, and validate JSON online",
+      "url": "/json",
+      "author": { "@@type": "Person", "name": "Udaiappa Ramachandran" },
+      "offers": { "@@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@@type": "SoftwareApplication",
+      "name": "Miscellaneous Developer Tools",
+      "description": "Free UNIX time converter, URL encoder/decoder, and Base64 encode/decode tool",
+      "url": "/misc",
+      "author": { "@@type": "Person", "name": "Udaiappa Ramachandran" },
+      "offers": { "@@type": "Offer", "price": "0", "priceCurrency": "USD" }
     }
-]
-</script>
+  ]
+}</script>

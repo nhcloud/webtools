@@ -1,0 +1,214 @@
+@{
+    ViewData["Title"] = "Miscellaneous Developer Tools";
+    ViewData["Description"] = "Free miscellaneous developer tools: UNIX time converter (UTC/local), URL encode/decode, Base64 encode/decode.";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="h4 mb-0"><i class="fas fa-toolbox"></i> Miscellaneous Developer Tools</h1>
+                <small class="text-muted">UNIX Time Converter • URL Encode/Decode • Base64 Encode/Decode</small>
+            </div>
+            <div class="card-body">
+                <p class="mb-0">All tools run client-side. No data stored.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- UNIX Time Converter -->
+    <div class="col-lg-4">
+        <div class="card h-100 border-primary">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-clock"></i> UNIX Time Converter</h5>
+            </div>
+            <div class="card-body small">
+                <div class="mb-3">
+                    <label class="form-label">Input (Unix Seconds or Date)</label>
+                    <input type="text" id="unixInput" class="form-control" placeholder="e.g. 1700000000 or 2024-01-01T00:00:00" />
+                </div>
+                <div class="d-flex gap-2 mb-3">
+                    <button class="btn btn-sm btn-primary" onclick="convertUnix('utc')">UTC</button>
+                    <button class="btn btn-sm btn-outline-primary" onclick="convertUnix('local')">LOCAL</button>
+                    <button class="btn btn-sm btn-secondary" onclick="setNow()">Now</button>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Output</label>
+                    <textarea id="unixOutput" class="form-control" rows="4" readonly></textarea>
+                </div>
+                <div class="alert alert-info mb-0">
+                    <small><strong>Tip:</strong> Enter a UNIX timestamp (seconds) or ISO date/time. Buttons format appropriately.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- URL Encode/Decode -->
+    <div class="col-lg-4">
+        <div class="card h-100 border-success">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-link"></i> URL Encode / Decode</h5>
+            </div>
+            <div class="card-body small d-flex flex-column">
+                <div class="mb-3">
+                    <label class="form-label">Input</label>
+                    <textarea id="urlInput" class="form-control" rows="4" placeholder="Raw or encoded URL/query string"></textarea>
+                </div>
+                <div class="d-flex gap-2 mb-3">
+                    <button class="btn btn-sm btn-success" onclick="urlEncode()">Encode</button>
+                    <button class="btn btn-sm btn-outline-success" onclick="urlDecode()">Decode</button>
+                    <button class="btn btn-sm btn-secondary" onclick="copyText('urlOutput', this)"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="mb-3 flex-grow-1 d-flex flex-column">
+                    <label class="form-label">Output</label>
+                    <textarea id="urlOutput" class="form-control" rows="4" readonly></textarea>
+                </div>
+                <div class="alert alert-info mb-0">
+                    <small><strong>Tip:</strong> Encode unsafe characters for URLs or decode to read original text.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Base64 Encode/Decode -->
+    <div class="col-lg-4">
+        <div class="card h-100 border-warning">
+            <div class="card-header bg-warning">
+                <h5 class="mb-0"><i class="fas fa-lock"></i> Base64 Encode / Decode</h5>
+            </div>
+            <div class="card-body small">
+                <div class="row g-2">
+                    <div class="col-6">
+                        <label class="form-label">Plain Text</label>
+                        <textarea id="b64Plain" class="form-control" rows="10" placeholder="Enter text to encode"></textarea>
+                        <div class="d-flex gap-2 mt-2">
+                            <button class="btn btn-sm btn-warning" onclick="base64Encode()">Encode ?</button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="clearB64('plain')">Clear</button>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Base64</label>
+                        <textarea id="b64Encoded" class="form-control" rows="10" placeholder="Enter Base64 to decode"></textarea>
+                        <div class="d-flex gap-2 mt-2">
+                            <button class="btn btn-sm btn-warning" onclick="base64Decode()">? Decode</button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="clearB64('encoded')">Clear</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex gap-2 mt-3">
+                    <button class="btn btn-sm btn-outline-warning" onclick="swapB64()"><i class="fas fa-exchange-alt"></i> Swap</button>
+                    <button class="btn btn-sm btn-outline-success" onclick="copyText('b64Plain', this)"><i class="fas fa-copy"></i> Plain</button>
+                    <button class="btn btn-sm btn-outline-success" onclick="copyText('b64Encoded', this)"><i class="fas fa-copy"></i> B64</button>
+                </div>
+                <div class="alert alert-info mt-3 mb-0">
+                    <small><strong>Note:</strong> Base64 is not encryption; it's an encoding for safe transport/storage of binary/text data.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card border-secondary">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="fas fa-info-circle"></i> About These Miscellaneous Tools</h6>
+            </div>
+            <div class="card-body small">
+                <p>Handy utility functions for everyday development tasks. All operations are executed in your browser for speed and privacy.</p>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6 class="text-primary">UNIX Time</h6>
+                        <p class="mb-2">UNIX timestamps represent seconds since Jan 1, 1970 UTC. Easily convert to human-readable time.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6 class="text-success">URL Encoding</h6>
+                        <p class="mb-2">URL encode reserved characters (space, &, =, /) so data is transmitted correctly in query strings.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6 class="text-warning">Base64 Encoding</h6>
+                        <p class="mb-2">Base64 converts binary data to ASCII text. Common in data URIs, auth headers, and serialization.</p>
+                    </div>
+                </div>
+                <p class="mb-0">All tools are free with no usage limits and no server-side processing of your data.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    // --- UNIX Time Converter ---
+    function setNow() {
+        const nowSec = Math.floor(Date.now()/1000);
+        document.getElementById('unixInput').value = nowSec;
+    }
+    function convertUnix(mode){
+        const input = document.getElementById('unixInput').value.trim();
+        const out = document.getElementById('unixOutput');
+        if(!input){ out.value=''; return; }
+        let date;
+        if(/^-?\d+$/.test(input)) { // assume seconds
+            const sec = parseInt(input,10);
+            date = new Date(sec * 1000);
+        } else {
+            const parsed = Date.parse(input);
+            if(isNaN(parsed)){ out.value = 'Invalid input'; return; }
+            date = new Date(parsed);
+        }
+        if(mode==='utc'){
+            out.value = 'UTC: ' + date.toISOString() + '\nUnix Seconds: ' + Math.floor(date.getTime()/1000);
+        } else {
+            out.value = 'Local: ' + date.toString() + '\nUnix Seconds: ' + Math.floor(date.getTime()/1000);
+        }
+    }
+
+    // --- URL Encode / Decode ---
+    function urlEncode(){
+        const input = document.getElementById('urlInput').value;
+        try { document.getElementById('urlOutput').value = encodeURIComponent(input); }
+        catch(e){ document.getElementById('urlOutput').value = 'Error: ' + e.message; }
+    }
+    function urlDecode(){
+        const input = document.getElementById('urlInput').value;
+        try { document.getElementById('urlOutput').value = decodeURIComponent(input); }
+        catch(e){ document.getElementById('urlOutput').value = 'Error: ' + e.message; }
+    }
+
+    // --- Base64 ---
+    function base64Encode(){
+        try {
+            const txt = document.getElementById('b64Plain').value;
+            document.getElementById('b64Encoded').value = btoa(unescape(encodeURIComponent(txt)));
+        } catch(e){ document.getElementById('b64Encoded').value='Error: '+e.message; }
+    }
+    function base64Decode(){
+        try {
+            const b64 = document.getElementById('b64Encoded').value.replace(/\s+/g,'');
+            document.getElementById('b64Plain').value = decodeURIComponent(escape(atob(b64)));
+        } catch(e){ document.getElementById('b64Plain').value='Error: '+e.message; }
+    }
+    function swapB64(){
+        const a = document.getElementById('b64Plain');
+        const b = document.getElementById('b64Encoded');
+        const tmp = a.value; a.value = b.value; b.value = tmp;
+    }
+    function clearB64(which){
+        if(which==='plain') document.getElementById('b64Plain').value='';
+        if(which==='encoded') document.getElementById('b64Encoded').value='';
+    }
+
+    // --- Copy Helper ---
+    function copyText(id, btn){
+        const el = document.getElementById(id);
+        navigator.clipboard.writeText(el.value).then(()=>{
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i>';
+            btn.classList.add('btn-success');
+            setTimeout(()=>{ btn.innerHTML = original; btn.classList.remove('btn-success'); }, 1200);
+        });
+    }
+</script>
+}
