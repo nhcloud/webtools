@@ -31,6 +31,9 @@ dotnet run --project src/ToolsWebsite.csproj
 ## Contributing
 PRs welcome. Open an issue for ideas or bugs.
 
+## Credits
+Assisted by AI agent modes: Sonnet-4 and GPT-5 for refinement and content generation support.
+
 ## License
 MIT (see repository LICENSE if present).
 
