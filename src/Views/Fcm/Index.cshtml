@@ -1,4 +1,4 @@
-@model ToolsWebsite.Models.FcmTestModel
+﻿@model ToolsWebsite.Models.FcmTestModel
 @{
     ViewData["Title"] = "FCM Push Notification Tester";
     ViewData["Description"] = "Free Firebase Cloud Messaging (FCM) push notification tester by Udaiappa Ramachandran. Test FCM notifications instantly with your server key and device token. No registration required.";
@@ -14,7 +14,7 @@
         <div class="card">
             <div class="card-header">
                 <h1><i class="fas fa-bell"></i> Firebase Cloud Messaging (FCM) Push Notification Tester</h1>
-                <p class="mb-0 text-muted">Test FCM push notifications instantly � Free developer tool</p>
+                <p class="mb-0 text-muted">Test FCM push notifications instantly • Free developer tool</p>
             </div>
             <div class="card-body">
                 <form asp-action="SendNotification" method="post">
@@ -59,16 +59,10 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label asp-for="ClickAction" class="form-label"></label>
-                        <input asp-for="ClickAction" class="form-control" placeholder="https://example.com (optional)" />
-                        <span asp-validation-for="ClickAction" class="text-danger"></span>
-                    </div>
-                    
-                    <div class="mb-3">
                         <label asp-for="Data" class="form-label"></label>
-                        <textarea asp-for="Data" class="form-control" rows="3" placeholder='{"key": "value", "another": "data"} (optional JSON)'></textarea>
+                        <textarea asp-for="Data" class="form-control" rows="3" placeholder='{"click_action":"https://udai.io/"} (optional)'></textarea>
                         <span asp-validation-for="Data" class="text-danger"></span>
-                        <div class="form-text">Optional JSON data to send with the notification</div>
+                        <div class="form-text">Optional JSON data to send with the notification. Include click_action here to open a URL when tapped. Example: {"click_action":"https://udai.io/"}</div>
                     </div>
                     
                     <button type="submit" class="btn btn-primary">
@@ -86,12 +80,11 @@
             </div>
             <div class="card-body">
                 <ol>
-                    <li><strong>Server Key:</strong> Get this from your Firebase Console ? Project Settings ? Cloud Messaging</li>
+                    <li><strong>Server Key:</strong> Get this from your Firebase Console → Project Settings → Cloud Messaging</li>
                     <li><strong>Device Token:</strong> Registration token from your app/device</li>
                     <li><strong>Title & Body:</strong> The notification message content</li>
                     <li><strong>Image URL:</strong> Optional image to display in notification</li>
-                    <li><strong>Click Action:</strong> URL to open when notification is clicked</li>
-                    <li><strong>Data:</strong> Additional JSON data for your app</li>
+                    <li><strong>Data (JSON):</strong> Additional data for your app. Include <code>click_action</code> to open a URL, e.g. <code>{"click_action":"https://udai.io/"}</code></li>
                 </ol>
                 
                 <div class="alert alert-warning">
@@ -99,7 +92,7 @@
                 </div>
                 
                 <div class="alert alert-info">
-                    <small><i class="fas fa-lightbulb"></i> <strong>Tip:</strong> This FCM tester supports all standard Firebase notification parameters and is perfect for testing mobile app push notifications.</small>
+                    <small><i class="fas fa-lightbulb"></i> <strong>Tip:</strong> Your app code should read click_action from the data payload to handle taps.</small>
                 </div>
             </div>
         </div>
@@ -130,19 +123,19 @@
                     <div class="col-md-6">
                         <h6>Perfect for:</h6>
                         <ul class="list-unstyled">
-                            <li>? Testing mobile app push notifications</li>
-                            <li>? Verifying FCM server key functionality</li>
-                            <li>? Testing notification content and formatting</li>
-                            <li>? Debugging push notification delivery</li>
+                            <li>• Testing mobile app push notifications</li>
+                            <li>• Verifying FCM server key functionality</li>
+                            <li>• Testing notification content and formatting</li>
+                            <li>• Debugging push notification delivery</li>
                         </ul>
                     </div>
                     <div class="col-md-6">
                         <h6>Features:</h6>
                         <ul class="list-unstyled">
-                            <li>?? Instant FCM notification testing</li>
-                            <li>?? No data storage - completely secure</li>
-                            <li>?? Supports all FCM notification parameters</li>
-                            <li>?? Free to use - no registration required</li>
+                            <li>• Instant FCM notification testing</li>
+                            <li>• No data storage - completely secure</li>
+                            <li>• Supports all FCM notification parameters</li>
+                            <li>• Free to use - no registration required</li>
                         </ul>
                     </div>
                 </div>

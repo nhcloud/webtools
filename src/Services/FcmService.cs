@@ -97,26 +97,6 @@ namespace ToolsWebsite.Services
                     ["data"] = dataPayload
                 };
 
-                // Add click_action for Android/WebPush if provided
-                if (!string.IsNullOrWhiteSpace(model.ClickAction))
-                {
-                    message["android"] = new Dictionary<string, object?>
-                    {
-                        ["notification"] = new Dictionary<string, object?>
-                        {
-                            ["click_action"] = model.ClickAction
-                        }
-                    };
-
-                    message["webpush"] = new Dictionary<string, object?>
-                    {
-                        ["fcm_options"] = new Dictionary<string, object?>
-                        {
-                            ["link"] = model.ClickAction
-                        }
-                    };
-                }
-
                 var payload = new Dictionary<string, object?>
                 {
                     ["message"] = message

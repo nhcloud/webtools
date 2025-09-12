@@ -26,9 +26,6 @@ namespace ToolsWebsite.Models
         [Display(Name = "Image URL")]
         public string? ImageUrl { get; set; }
 
-        [Display(Name = "Click Action URL")]
-        public string? ClickAction { get; set; }
-
         public string? Result { get; set; }
         public bool IsSuccess { get; set; }
     }
