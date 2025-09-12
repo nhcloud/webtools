@@ -4,14 +4,9 @@ using ToolsWebsite.Models;
 
 namespace ToolsWebsite.Controllers
 {
-    public class QrCodeController : Controller
+    public class QrCodeController(QrCodeService qrCodeService) : Controller
     {
-        private readonly QrCodeService _qrCodeService;
-
-        public QrCodeController(QrCodeService qrCodeService)
-        {
-            _qrCodeService = qrCodeService;
-        }
+        private readonly QrCodeService _qrCodeService = qrCodeService;
 
         public IActionResult Index()
         {

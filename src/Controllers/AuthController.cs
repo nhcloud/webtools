@@ -4,14 +4,9 @@ using ToolsWebsite.Models;
 
 namespace ToolsWebsite.Controllers
 {
-    public class AuthController : Controller
+    public class AuthController(AuthService authService) : Controller
     {
-        private readonly AuthService _authService;
-
-        public AuthController(AuthService authService)
-        {
-            _authService = authService;
-        }
+        private readonly AuthService _authService = authService;
 
         public IActionResult Index()
         {

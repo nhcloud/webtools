@@ -4,14 +4,9 @@ using ToolsWebsite.Models;
 
 namespace ToolsWebsite.Controllers
 {
-    public class FcmController : Controller
+    public class FcmController(FcmService fcmService) : Controller
     {
-        private readonly FcmService _fcmService;
-
-        public FcmController(FcmService fcmService)
-        {
-            _fcmService = fcmService;
-        }
+        private readonly FcmService _fcmService = fcmService;
 
         public IActionResult Index()
         {

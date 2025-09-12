@@ -3,14 +3,9 @@ using ToolsWebsite.Models;
 
 namespace ToolsWebsite.Services
 {
-    public class AuthService
+    public class AuthService(HttpClient httpClient)
     {
-        private readonly HttpClient _httpClient;
-
-        public AuthService(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
+        private readonly HttpClient _httpClient = httpClient;
 
         public async Task<TokenResult> GetAccessTokenAsync(AuthModel model)
         {
