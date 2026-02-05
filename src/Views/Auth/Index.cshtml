@@ -5,45 +5,77 @@
 }
 
 <style>
-    /* JWT.ms inspired color scheme */
-    /* Encoded token parts - full background colors */
-    .encoded-header { background-color: #fb015b; color: #fff; padding: 2px 0; display: inline; word-break: break-all; }
-    .encoded-payload { background-color: #d63aff; color: #fff; padding: 2px 0; display: inline; word-break: break-all; }
-    .encoded-signature { background-color: #00d084; color: #fff; padding: 2px 0; display: inline; word-break: break-all; }
-    .encoded-dot { color: #333; font-weight: bold; }
-    .encoded-token-box { background: #f8f9fa; padding: 1rem; border-radius: 8px; font-family: monospace; font-size: 0.8rem; line-height: 1.6; word-break: break-all; border: 1px solid #dee2e6; }
+/* JWT.ms inspired color scheme */
+/* Encoded token parts - full background colors */
+.encoded-header { background-color: #fb015b; color: #fff; padding: 2px 4px; display: inline; word-break: break-all; }
+.encoded-payload { background-color: #d63aff; color: #fff; padding: 2px 4px; display: inline; word-break: break-all; }
+.encoded-signature { background-color: #00d084; color: #fff; padding: 2px 4px; display: inline; word-break: break-all; }
+.encoded-dot { color: #333; font-weight: bold; }
     
-    /* Decoded JSON - syntax highlighting on white/light background */
-    .decoded-section { background: #fff; border: 1px solid #dee2e6; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
-    .decoded-section pre { background: transparent; margin: 0; white-space: pre-wrap; word-break: break-all; font-size: 0.85rem; }
-    .decoded-section-header { border-left: 4px solid #fb015b; }
-    .decoded-section-payload { border-left: 4px solid #d63aff; }
-    .decoded-section-signature { border-left: 4px solid #00d084; }
+/* Token input area - can show plain or colored */
+.token-input-box { 
+    background: #f8f9fa; 
+    padding: 1rem; 
+    border-radius: 8px; 
+    font-family: monospace; 
+    font-size: 0.8rem; 
+    line-height: 1.6; 
+    word-break: break-all; 
+    border: 1px solid #dee2e6; 
+    min-height: 120px;
+    cursor: text;
+}
+.token-input-box:focus-within { border-color: #86b7fe; box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25); }
+.token-input-box.empty { color: #6c757d; }
     
-    /* Syntax highlighting colors for decoded JSON */
-    .jwt-key { color: #d63384; font-weight: 500; }
-    .jwt-string { color: #0d6efd; }
-    .jwt-number { color: #198754; }
-    .jwt-bool { color: #dc3545; }
-    .jwt-null { color: #6c757d; font-style: italic; }
+/* Decoded JSON - syntax highlighting on white/light background */
+.decoded-section { background: #fff; border: 1px solid #dee2e6; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+.decoded-section pre { background: transparent; margin: 0; white-space: pre-wrap; word-break: break-all; font-size: 0.85rem; }
+.decoded-section-header { border-left: 4px solid #fb015b; }
+.decoded-section-payload { border-left: 4px solid #d63aff; }
+.decoded-section-signature { border-left: 4px solid #00d084; }
     
-    /* Section labels */
-    .section-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
-    .section-label-header { color: #fb015b; }
-    .section-label-payload { color: #d63aff; }
-    .section-label-signature { color: #00d084; }
+/* Header section - red/pink syntax highlighting */
+.decoded-section-header .jwt-key { color: #fb015b; font-weight: 500; }
+.decoded-section-header .jwt-string { color: #d6336c; }
+.decoded-section-header .jwt-number { color: #c92a5a; }
+.decoded-section-header .jwt-bool { color: #a61e4d; }
+.decoded-section-header .jwt-null { color: #862e9c; font-style: italic; }
     
-    /* Tab styling */
-    .jwt-tabs .nav-link { color: #495057; border: none; padding: 0.75rem 1.5rem; font-weight: 500; }
-    .jwt-tabs .nav-link.active { color: #0d6efd; background: transparent; border-bottom: 3px solid #0d6efd; }
-    .jwt-tabs .nav-link:hover:not(.active) { color: #0d6efd; background: #f8f9fa; }
+/* Payload section - purple syntax highlighting */
+.decoded-section-payload .jwt-key { color: #d63aff; font-weight: 500; }
+.decoded-section-payload .jwt-string { color: #7c3aed; }
+.decoded-section-payload .jwt-number { color: #9333ea; }
+.decoded-section-payload .jwt-bool { color: #a855f7; }
+.decoded-section-payload .jwt-null { color: #c084fc; font-style: italic; }
     
-    /* Claims table */
-    .claims-table { font-size: 0.9rem; }
-    .claims-table th { background: #f8f9fa; font-weight: 600; width: 30%; }
-    .claims-table td { word-break: break-all; }
-    .claim-name { color: #d63384; font-family: monospace; }
+/* Signature section - green syntax highlighting */
+.decoded-section-signature .jwt-key { color: #00d084; font-weight: 500; }
+.decoded-section-signature .jwt-string { color: #059669; }
+.decoded-section-signature .jwt-number { color: #10b981; }
+.decoded-section-signature .jwt-bool { color: #34d399; }
+.decoded-section-signature .jwt-null { color: #6ee7b7; font-style: italic; }
+    
+/* Section labels */
+.section-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
+.section-label-header { color: #fb015b; }
+.section-label-payload { color: #d63aff; }
+.section-label-signature { color: #00d084; }
+    
+/* Tab styling */
+.jwt-tabs .nav-link { color: #495057; border: none; padding: 0.75rem 1.5rem; font-weight: 500; }
+.jwt-tabs .nav-link.active { color: #0d6efd; background: transparent; border-bottom: 3px solid #0d6efd; }
+.jwt-tabs .nav-link:hover:not(.active) { color: #0d6efd; background: #f8f9fa; }
+    
+/* Claims table */
+.claims-table { font-size: 0.9rem; }
+.claims-table th { background: #f8f9fa; font-weight: 600; width: 30%; }
+.claims-table td { word-break: break-all; }
+.claim-name { color: #d63384; font-family: monospace; }
     .claim-value { color: #0d6efd; }
+    
+    /* Hidden textarea for clipboard operations */
+    .hidden-textarea { position: absolute; left: -9999px; }
 </style>
 
 <div class="alert alert-danger border-2 border-danger mb-4">
@@ -146,26 +178,37 @@
                 }
                 
                 <div class="mb-3">
-                    <textarea class="form-control font-monospace" rows="5" id="accessToken" placeholder="Paste a JWT token here to decode, or generate one above..." style="font-size: 0.85rem;">@Model.AccessToken</textarea>
+                    <!-- Hidden textarea for actual value storage and clipboard -->
+                    <textarea class="hidden-textarea" id="accessToken" aria-hidden="true">@Model.AccessToken</textarea>
+                    
+                    <!-- Visible token display box - shows colored parts when valid JWT -->
+                    <div class="token-input-box" id="tokenDisplayBox" onclick="editToken()" tabindex="0">
+                        <span id="tokenPlaceholder" class="text-muted">Paste a JWT token here to decode, or generate one above...</span>
+                        <span id="tokenColored" style="display: none;">
+                            <span id="coloredHeader" class="encoded-header"></span><span class="encoded-dot">.</span><span id="coloredPayload" class="encoded-payload"></span><span class="encoded-dot">.</span><span id="coloredSignature" class="encoded-signature"></span>
+                        </span>
+                        <span id="tokenPlain" style="display: none;"></span>
+                    </div>
+                    
+                    <!-- Edit mode textarea (shown when clicking to edit) -->
+                    <textarea class="form-control font-monospace" rows="5" id="tokenEditArea" style="display: none; font-size: 0.85rem;" 
+                        onblur="finishEditing()" 
+                        onpaste="setTimeout(function(){ finishEditing(); decodeJWTFromInput(); }, 100)"
+                        placeholder="Paste a JWT token here to decode, or generate one above..."></textarea>
+                    
+                    <div class="mt-2 text-muted small" id="tokenIssuerInfo"></div>
+                    
                     <div class="mt-2 d-flex gap-2">
-                        <button class="btn btn-primary" type="button" onclick="decodeJWTFromInput()">
-                            <i class="fas fa-code"></i> Decode JWT
-                        </button>
-                        <button class="btn btn-outline-secondary" type="button" onclick="copyToClipboard('accessToken')">
+                        <button class="btn btn-outline-secondary" type="button" onclick="copyToken()">
                             <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button class="btn btn-outline-warning" type="button" onclick="editToken()">
+                            <i class="fas fa-edit"></i> Edit
                         </button>
                         <button class="btn btn-outline-danger" type="button" onclick="clearToken()">
                             <i class="fas fa-trash"></i> Clear
                         </button>
                     </div>
-                </div>
-                
-                <!-- Encoded Token with jwt.ms style background colors -->
-                <div id="encodedTokenDisplay" class="mb-4" style="display: none;">
-                    <div class="encoded-token-box">
-                        <span id="encodedHeader" class="encoded-header"></span><span class="encoded-dot">.</span><span id="encodedPayload" class="encoded-payload"></span><span class="encoded-dot">.</span><span id="encodedSignature" class="encoded-signature"></span>
-                    </div>
-                    <div class="mt-2 text-muted small" id="tokenIssuerInfo"></div>
                 </div>
                 
                 <!-- Tabs for Decoded Token and Claims -->
@@ -272,9 +315,71 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        function copyToClipboard(elementId) {
-            const element = document.getElementById(elementId);
-            navigator.clipboard.writeText(element.value).then(function() {
+        // Show token in the display box (colored or plain)
+        function updateTokenDisplay() {
+            const token = document.getElementById('accessToken').value.trim();
+            const placeholder = document.getElementById('tokenPlaceholder');
+            const colored = document.getElementById('tokenColored');
+            const plain = document.getElementById('tokenPlain');
+            const displayBox = document.getElementById('tokenDisplayBox');
+            
+            if (!token) {
+                placeholder.style.display = 'inline';
+                colored.style.display = 'none';
+                plain.style.display = 'none';
+                displayBox.classList.add('empty');
+                return;
+            }
+            
+            displayBox.classList.remove('empty');
+            placeholder.style.display = 'none';
+            
+            const parts = token.split('.');
+            if (parts.length === 3) {
+                // Valid JWT structure - show colored
+                document.getElementById('coloredHeader').textContent = parts[0];
+                document.getElementById('coloredPayload').textContent = parts[1];
+                document.getElementById('coloredSignature').textContent = parts[2];
+                colored.style.display = 'inline';
+                plain.style.display = 'none';
+            } else {
+                // Not a valid JWT - show plain
+                plain.textContent = token;
+                plain.style.display = 'inline';
+                colored.style.display = 'none';
+            }
+        }
+        
+        function editToken() {
+            const token = document.getElementById('accessToken').value;
+            const editArea = document.getElementById('tokenEditArea');
+            const displayBox = document.getElementById('tokenDisplayBox');
+            
+            editArea.value = token;
+            displayBox.style.display = 'none';
+            editArea.style.display = 'block';
+            editArea.focus();
+            editArea.select();
+        }
+        
+        function finishEditing() {
+            const editArea = document.getElementById('tokenEditArea');
+            const displayBox = document.getElementById('tokenDisplayBox');
+            
+            document.getElementById('accessToken').value = editArea.value.trim();
+            editArea.style.display = 'none';
+            displayBox.style.display = 'block';
+            updateTokenDisplay();
+        }
+        
+        function copyToken() {
+            const token = document.getElementById('accessToken').value;
+            if (!token) {
+                alert('No token to copy.');
+                return;
+            }
+            
+            navigator.clipboard.writeText(token).then(function() {
                 const btn = event.target.closest('button');
                 const originalText = btn.innerHTML;
                 btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
@@ -285,13 +390,22 @@
                     btn.classList.remove('btn-success');
                     btn.classList.add('btn-outline-secondary');
                 }, 2000);
+                
+                // Also decode the token after copying
+                if (token.split('.').length === 3) {
+                    decodeJWT(token);
+                }
             });
         }
 
         function clearToken() {
             document.getElementById('accessToken').value = '';
+            document.getElementById('tokenEditArea').value = '';
             document.getElementById('decodedToken').style.display = 'none';
-            document.getElementById('encodedTokenDisplay').style.display = 'none';
+            document.getElementById('tokenIssuerInfo').innerHTML = '';
+            document.getElementById('tokenExpiredWarning').style.display = 'none';
+            document.getElementById('tokenValidInfo').style.display = 'none';
+            updateTokenDisplay();
         }
 
         function escapeHtml(str) {
@@ -381,11 +495,8 @@
                 const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
                 const signature = parts[2];
 
-                // Show encoded parts with background colors
-                document.getElementById('encodedHeader').textContent = parts[0];
-                document.getElementById('encodedPayload').textContent = parts[1];
-                document.getElementById('encodedSignature').textContent = signature;
-                document.getElementById('encodedTokenDisplay').style.display = 'block';
+                // Update the colored token display
+                updateTokenDisplay();
 
                 // Show issuer info like jwt.ms
                 if (payload.iss) {
@@ -483,6 +594,7 @@
         // Auto-decode if token was generated
         document.addEventListener('DOMContentLoaded', function() {
             const token = document.getElementById('accessToken').value.trim();
+            updateTokenDisplay();
             if (token && token.includes('.')) {
                 decodeJWT(token);
             }
