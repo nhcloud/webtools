@@ -534,7 +534,9 @@
                 // Add header claims
                 for (const [key, value] of Object.entries(header)) {
                     const row = document.createElement('tr');
-                    row.innerHTML = `<td><span class="claim-name">${escapeHtml(key)}</span><br><small class="text-muted">${getClaimDescription(key)}</small></td><td class="claim-value">${escapeHtml(formatClaimValue(value))}</td>`;
+                    const desc = getClaimDescription(key);
+                    const claimLabel = key !== desc ? `${key} <small class="text-muted">(${desc})</small>` : key;
+                    row.innerHTML = `<td><span class="claim-name">${claimLabel}</span></td><td class="claim-value">${escapeHtml(formatClaimValue(value))}</td>`;
                     claimsBody.appendChild(row);
                 }
                 
@@ -554,7 +556,9 @@
                         displayValue = date.toLocaleString() + ' (Unix: ' + value + ')';
                     }
                     
-                    row.innerHTML = `<td><span class="claim-name">${escapeHtml(key)}</span><br><small class="text-muted">${getClaimDescription(key)}</small></td><td class="claim-value">${escapeHtml(displayValue)}</td>`;
+                    const desc = getClaimDescription(key);
+                    const claimLabel = key !== desc ? `${key} <small class="text-muted">(${desc})</small>` : key;
+                    row.innerHTML = `<td><span class="claim-name">${claimLabel}</span></td><td class="claim-value">${escapeHtml(displayValue)}</td>`;
                     claimsBody.appendChild(row);
                 }
 
