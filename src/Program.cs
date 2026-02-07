@@ -1,3 +1,4 @@
+using System.Threading.RateLimiting;
 using ToolsWebsite.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,68 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient<AuthService>();
 builder.Services.AddHttpClient<FcmService>();
 builder.Services.AddScoped<QrCodeService>();
+
+// Add Rate Limiting (.NET 7+)
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    
+    // Global rate limit per IP: 100 requests per minute
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 100,
+                Window = TimeSpan.FromMinutes(1),
+                QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                QueueLimit = 5
+            }));
+    
+    // Stricter limit for auth endpoints (token generation)
+    options.AddPolicy("auth", context =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 10,
+                Window = TimeSpan.FromMinutes(1),
+                QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                QueueLimit = 2
+            }));
+    
+    // Stricter limit for FCM endpoints
+    options.AddPolicy("fcm", context =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 20,
+                Window = TimeSpan.FromMinutes(1),
+                QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                QueueLimit = 2
+            }));
+
+    // Handle rate limit exceeded
+    options.OnRejected = async (context, cancellationToken) =>
+    {
+        context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+        context.HttpContext.Response.ContentType = "application/json";
+        
+        var retryAfter = context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfterValue)
+            ? retryAfterValue.TotalSeconds
+            : 60;
+        
+        context.HttpContext.Response.Headers.RetryAfter = retryAfter.ToString();
+        
+        await context.HttpContext.Response.WriteAsJsonAsync(new
+        {
+            error = "Too many requests",
+            message = "Rate limit exceeded. Please try again later.",
+            retryAfterSeconds = retryAfter
+        }, cancellationToken);
+    };
+});
 
 var app = builder.Build();
 
@@ -18,6 +81,9 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Enable rate limiting
+app.UseRateLimiter();
 
 // Custom middleware to handle common bot requests efficiently
 app.Use(async (context, next) =>
@@ -50,7 +116,8 @@ app.UseRouting();
 app.MapControllerRoute(
     name: "fcm",
     pattern: "fcm/{action=Index}",
-    defaults: new { controller = "Fcm" });
+    defaults: new { controller = "Fcm" })
+    .RequireRateLimiting("fcm");
 
 app.MapControllerRoute(
     name: "qr",
@@ -60,7 +127,8 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "auth",
     pattern: "auth/{action=Index}",
-    defaults: new { controller = "Auth" });
+    defaults: new { controller = "Auth" })
+    .RequireRateLimiting("auth");
 
 app.MapControllerRoute(
     name: "default",
