@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient<AuthService>();
 builder.Services.AddHttpClient<FcmService>();
+builder.Services.AddHttpClient<OneSignalService>();
 builder.Services.AddScoped<QrCodeService>();
 
 // Add Rate Limiting (.NET 7+)

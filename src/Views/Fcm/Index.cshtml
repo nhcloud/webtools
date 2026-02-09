@@ -1,7 +1,8 @@
 ﻿@model ToolsWebsite.Models.FcmTestModel
+@using ToolsWebsite.Models
 @{
-    ViewData["Title"] = "FCM Push Notification Tester";
-    ViewData["Description"] = "Free Firebase Cloud Messaging (FCM) push notification tester by Udaiappa Ramachandran. Test FCM notifications instantly with your server key and device token. No registration required.";
+    ViewData["Title"] = "Push Notification Tester";
+    ViewData["Description"] = "Free push notification tester by Udaiappa Ramachandran. Test FCM and OneSignal push notifications instantly. No registration required.";
 }
 
 <div class="alert alert-warning border-2 border-warning mb-4">
@@ -13,39 +14,92 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-                <h1><i class="fas fa-bell"></i> Firebase Cloud Messaging (FCM) Push Notification Tester</h1>
-                <p class="mb-0 text-muted">Test FCM push notifications instantly • Free developer tool</p>
+                <h1><i class="fas fa-bell"></i> Push Notification Tester</h1>
+                <p class="mb-0 text-muted">Test FCM &amp; OneSignal push notifications instantly &bull; Free developer tool</p>
             </div>
             <div class="card-body">
                 <form asp-action="SendNotification" method="post">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label asp-for="ServerKey" class="form-label"></label>
-                                <input asp-for="ServerKey" class="form-control" placeholder="Enter your FCM Server Key" />
-                                <span asp-validation-for="ServerKey" class="text-danger"></span>
+                    
+                    <!-- Provider selector -->
+                    <div class="mb-3">
+                        <label asp-for="Provider" class="form-label fw-bold"></label>
+                        <select asp-for="Provider" asp-items="Html.GetEnumSelectList<NotificationProvider>()" 
+                                class="form-select" id="providerSelect">
+                        </select>
+                    </div>
+                    
+                    <!-- FCM fields -->
+                    <div id="fcmFields">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="ServerKey" class="form-label"></label> <span class="text-danger">*</span>
+                                    <input asp-for="ServerKey" class="form-control" placeholder="Paste Google Service Account JSON" />
+                                    <span asp-validation-for="ServerKey" class="text-danger"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label asp-for="DeviceToken" class="form-label"></label>
-                                <input asp-for="DeviceToken" class="form-control" placeholder="Enter device registration token" />
-                                <span asp-validation-for="DeviceToken" class="text-danger"></span>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="DeviceToken" class="form-label"></label> <span class="text-danger">*</span>
+                                    <input asp-for="DeviceToken" class="form-control" placeholder="Enter device registration token" />
+                                    <span asp-validation-for="DeviceToken" class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
+                    <!-- OneSignal fields -->
+                    <div id="oneSignalFields" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="OneSignalAppId" class="form-label"></label> <span class="text-danger">*</span>
+                                    <input asp-for="OneSignalAppId" class="form-control" placeholder="OneSignal App ID" />
+                                    <span asp-validation-for="OneSignalAppId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="OneSignalApiKey" class="form-label"></label> <span class="text-danger">*</span>
+                                    <input asp-for="OneSignalApiKey" class="form-control" type="password" placeholder="OneSignal REST API Key" />
+                                    <span asp-validation-for="OneSignalApiKey" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="OneSignalUserIds" class="form-label"></label> <span class="text-danger">*</span>
+                                    <input asp-for="OneSignalUserIds" class="form-control" placeholder="user1@example.com, user2@example.com" />
+                                    <span asp-validation-for="OneSignalUserIds" class="text-danger"></span>
+                                    <div class="form-text">Comma-separated external user IDs (provide User IDs or Segments)</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="OneSignalSegments" class="form-label"></label>
+                                    <input asp-for="OneSignalSegments" class="form-control" placeholder="Subscribed Users, Active Users" />
+                                    <span asp-validation-for="OneSignalSegments" class="text-danger"></span>
+                                    <div class="form-text">Comma-separated segments (alternative to User IDs)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr />
+                    
+                    <!-- Shared fields -->
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label asp-for="Title" class="form-label"></label>
+                                <label asp-for="Title" class="form-label"></label> <span class="text-danger">*</span>
                                 <input asp-for="Title" class="form-control" placeholder="Notification title" />
                                 <span asp-validation-for="Title" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label asp-for="Body" class="form-label"></label>
+                                <label asp-for="Body" class="form-label"></label> <span class="text-danger">*</span>
                                 <input asp-for="Body" class="form-control" placeholder="Notification body message" />
                                 <span asp-validation-for="Body" class="text-danger"></span>
                             </div>
@@ -62,11 +116,11 @@
                         <label asp-for="Data" class="form-label"></label>
                         <textarea asp-for="Data" class="form-control" rows="3" placeholder='{"click_action":"https://udai.io/"} (optional)'></textarea>
                         <span asp-validation-for="Data" class="text-danger"></span>
-                        <div class="form-text">Optional JSON data to send with the notification. Include click_action here to open a URL when tapped. Example: {"click_action":"https://udai.io/"}</div>
+                        <div class="form-text">Optional JSON data to send with the notification</div>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-paper-plane"></i> Send FCM Notification
+                    <button type="submit" class="btn btn-primary" id="sendBtn">
+                        <i class="fas fa-paper-plane"></i> Send Notification
                     </button>
                 </form>
             </div>
@@ -74,25 +128,40 @@
     </div>
     
     <div class="col-md-4">
-        <div class="card">
+        <!-- FCM help -->
+        <div class="card" id="fcmHelp">
             <div class="card-header">
-                <h5><i class="fas fa-info-circle"></i> How to Use FCM Tester</h5>
+                <h5><i class="fas fa-info-circle"></i> FCM Setup</h5>
             </div>
             <div class="card-body">
                 <ol>
-                    <li><strong>Server Key:</strong> Get this from your Firebase Console → Project Settings → Cloud Messaging</li>
+                    <li><strong>Service Account JSON:</strong> Firebase Console &rarr; Project Settings &rarr; Service accounts &rarr; Generate new private key</li>
                     <li><strong>Device Token:</strong> Registration token from your app/device</li>
-                    <li><strong>Title & Body:</strong> The notification message content</li>
-                    <li><strong>Image URL:</strong> Optional image to display in notification</li>
-                    <li><strong>Data (JSON):</strong> Additional data for your app. Include <code>click_action</code> to open a URL, e.g. <code>{"click_action":"https://udai.io/"}</code></li>
+                    <li><strong>Title &amp; Body:</strong> Notification content</li>
+                    <li><strong>Image URL:</strong> Optional image in notification</li>
+                    <li><strong>Data (JSON):</strong> Include <code>click_action</code> for URL on tap</li>
                 </ol>
-                
-                <div class="alert alert-warning">
-                    <small><i class="fas fa-exclamation-triangle"></i> Make sure your server key has the necessary permissions to send notifications.</small>
+                <div class="alert alert-info mb-0">
+                    <small><i class="fas fa-lightbulb"></i> <strong>Tip:</strong> Uses FCM HTTP v1 API with OAuth2.</small>
                 </div>
-                
-                <div class="alert alert-info">
-                    <small><i class="fas fa-lightbulb"></i> <strong>Tip:</strong> Your app code should read click_action from the data payload to handle taps.</small>
+            </div>
+        </div>
+        
+        <!-- OneSignal help -->
+        <div class="card" id="oneSignalHelp" style="display: none;">
+            <div class="card-header">
+                <h5><i class="fas fa-info-circle"></i> OneSignal Setup</h5>
+            </div>
+            <div class="card-body">
+                <ol>
+                    <li><strong>App ID:</strong> OneSignal Dashboard &rarr; Settings &rarr; Keys &amp; IDs</li>
+                    <li><strong>REST API Key:</strong> Same page, under REST API Key</li>
+                    <li><strong>User IDs:</strong> External user IDs set via <code>setExternalUserId()</code></li>
+                    <li><strong>Segments:</strong> Target groups (e.g. "Subscribed Users")</li>
+                    <li><strong>Image:</strong> Supports Android big picture &amp; iOS attachments</li>
+                </ol>
+                <div class="alert alert-info mb-0">
+                    <small><i class="fas fa-lightbulb"></i> <strong>Tip:</strong> Provide User IDs for targeted push, or Segments for broad push.</small>
                 </div>
             </div>
         </div>
@@ -104,8 +173,8 @@
     <div class="row mt-4">
         <div class="col-12">
             <div class="alert @(Model.IsSuccess ? "alert-success" : "alert-danger")">
-                <h5><i class="fas fa-@(Model.IsSuccess ? "check-circle" : "times-circle")"></i> FCM Test Result</h5>
-                <p class="mb-0">@Model.Result</p>
+                <h5><i class="fas fa-@(Model.IsSuccess ? "check-circle" : "times-circle")"></i> Notification Result</h5>
+                <pre class="mb-0" style="white-space: pre-wrap;">@Model.Result</pre>
             </div>
         </div>
     </div>
@@ -115,27 +184,34 @@
     <div class="col-12">
         <div class="card border-info">
             <div class="card-header">
-                <h6><i class="fas fa-question-circle"></i> About This FCM Testing Tool</h6>
+                <h6><i class="fas fa-question-circle"></i> About This Push Notification Testing Tool</h6>
             </div>
             <div class="card-body">
-                <p>This free Firebase Cloud Messaging (FCM) push notification tester helps developers quickly test FCM notifications without writing code.</p>
+                <p>This free push notification tester helps developers quickly test notifications across multiple providers without writing code.</p>
                 <div class="row">
-                    <div class="col-md-6">
-                        <h6>Perfect for:</h6>
+                    <div class="col-md-4">
+                        <h6>Supported Providers:</h6>
                         <ul class="list-unstyled">
-                            <li>• Testing mobile app push notifications</li>
-                            <li>• Verifying FCM server key functionality</li>
-                            <li>• Testing notification content and formatting</li>
-                            <li>• Debugging push notification delivery</li>
+                            <li>&bull; Firebase Cloud Messaging (FCM)</li>
+                            <li>&bull; OneSignal</li>
                         </ul>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <h6>Perfect for:</h6>
+                        <ul class="list-unstyled">
+                            <li>&bull; Testing mobile app push notifications</li>
+                            <li>&bull; Verifying notification delivery</li>
+                            <li>&bull; Testing content and formatting</li>
+                            <li>&bull; Debugging push notification issues</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
                         <h6>Features:</h6>
                         <ul class="list-unstyled">
-                            <li>• Instant FCM notification testing</li>
-                            <li>• No data storage - completely secure</li>
-                            <li>• Supports all FCM notification parameters</li>
-                            <li>• Free to use - no registration required</li>
+                            <li>&bull; No data storage - completely secure</li>
+                            <li>&bull; Supports images &amp; custom data</li>
+                            <li>&bull; Android &amp; iOS support</li>
+                            <li>&bull; Free to use - no registration</li>
                         </ul>
                     </div>
                 </div>
@@ -146,4 +222,48 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var select = document.getElementById('providerSelect');
+            toggleProvider(select.value);
+            select.addEventListener('change', function () {
+                toggleProvider(this.value);
+            });
+
+            // Client-side validation before submit
+            document.querySelector('form').addEventListener('submit', function (e) {
+                var provider = document.getElementById('providerSelect').value;
+                var errors = [];
+
+                if (provider === '@((int)NotificationProvider.OneSignal)' || provider === 'OneSignal') {
+                    if (!document.getElementById('OneSignalAppId').value.trim())
+                        errors.push('App ID is required for OneSignal.');
+                    if (!document.getElementById('OneSignalApiKey').value.trim())
+                        errors.push('REST API Key is required for OneSignal.');
+                    if (!document.getElementById('OneSignalUserIds').value.trim() && !document.getElementById('OneSignalSegments').value.trim())
+                        errors.push('Provide either User IDs or Segments.');
+                } else {
+                    if (!document.getElementById('ServerKey').value.trim())
+                        errors.push('Service Account JSON is required for FCM.');
+                    if (!document.getElementById('DeviceToken').value.trim())
+                        errors.push('Device Token is required for FCM.');
+                }
+
+                if (errors.length > 0) {
+                    e.preventDefault();
+                    alert(errors.join('\n'));
+                }
+            });
+        });
+
+        function toggleProvider(value) {
+            var isFcm = value === '@((int)NotificationProvider.Fcm)' || value === 'Fcm';
+            var isOneSignal = value === '@((int)NotificationProvider.OneSignal)' || value === 'OneSignal';
+
+            document.getElementById('fcmFields').style.display = isFcm ? '' : 'none';
+            document.getElementById('fcmHelp').style.display = isFcm ? '' : 'none';
+            document.getElementById('oneSignalFields').style.display = isOneSignal ? '' : 'none';
+            document.getElementById('oneSignalHelp').style.display = isOneSignal ? '' : 'none';
+        }
+    </script>
 }

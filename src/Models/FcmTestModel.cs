@@ -2,16 +2,40 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ToolsWebsite.Models
 {
+    public enum NotificationProvider
+    {
+        [Display(Name = "FCM (Firebase Cloud Messaging)")]
+        Fcm,
+        [Display(Name = "OneSignal")]
+        OneSignal
+    }
+
     public class FcmTestModel
     {
-        [Required]
-        [Display(Name = "Server Key")]
+        [Display(Name = "Provider")]
+        public NotificationProvider Provider { get; set; } = NotificationProvider.Fcm;
+
+        // --- FCM fields ---
+        [Display(Name = "Service Account JSON")]
         public string ServerKey { get; set; } = "";
 
-        [Required]
         [Display(Name = "Device Token")]
         public string DeviceToken { get; set; } = "";
 
+        // --- OneSignal fields ---
+        [Display(Name = "App ID")]
+        public string? OneSignalAppId { get; set; }
+
+        [Display(Name = "REST API Key")]
+        public string? OneSignalApiKey { get; set; }
+
+        [Display(Name = "User IDs (comma-separated)")]
+        public string? OneSignalUserIds { get; set; }
+
+        [Display(Name = "Segments (comma-separated)")]
+        public string? OneSignalSegments { get; set; }
+
+        // --- Shared fields ---
         [Required]
         [Display(Name = "Title")]
         public string Title { get; set; } = "";
